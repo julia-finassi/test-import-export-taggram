@@ -20,9 +20,7 @@ import
         return response.json();
       })
       .then(function (user) {
-        const $username = document.getElementById("current-user-username");
-        const $avatar = document.getElementById("current-user-avatar");
-        // console.log($avatar)
+
         $username.innerHTML = user.username;
 
         if (user.avatar) {
@@ -37,9 +35,6 @@ import
         return response.json();
       })
       .then(function (post) {
-        // console.log(post.user)
-        // console.log(post.user.username)
-        // console.log(post.user.avatar)
         
         
         function qualMes(dateView) 
@@ -68,22 +63,21 @@ import
             return "Novembro";
           case "12":
             return "Dezembro";
-          return "";}
+          default:
+            return "";
+        }
         }
 
         $location.innerHTML = post.location.city + ", " + post.location.country;
 
         $commentsCount.innerHTML = `${post.comments.length} comentários`;
-        console.log(post.created_at);
-        // console.log([post]);
+
         const dayView = post.created_at.substring(8,10)
         const dateView = post.created_at.substring(5,7)
         
-        console.log(qualMes(dateView))
-        var comentarios = post.comments;
         $datePhoto.innerHTML = dayView + " de " + qualMes(dateView)
 
-        comentarios.forEach((comentario) => {
+        post.comments.forEach((comentario) => {
           const date = new Date(comentario.created_at);
           const year = date.getFullYear();
           const month = date.getMonth() + 1;
@@ -95,8 +89,8 @@ import
           if (month < 10) {
             month = "0" + month;
           }
-          var commentDate = year + "-" + month + "-" + dt;
-          var commentDateFromNow = moment(commentDate).fromNow();
+          const commentDate = year + "-" + month + "-" + dt;
+          const commentDateFromNow = moment(commentDate).fromNow();
 
           $comments.innerHTML += `
         <div class="comment">
